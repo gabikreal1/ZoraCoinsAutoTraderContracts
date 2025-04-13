@@ -120,7 +120,6 @@ The `AIAgentIntegration.js` script demonstrates how an AI agent can:
 ## Security Considerations
 
 - The contract uses strict token approval and accounting
-- Only approved tokens can be traded
 - Only registered AI agents can execute trades
 - All thresholds are user-specific
 - Emergency withdrawal functions are available
