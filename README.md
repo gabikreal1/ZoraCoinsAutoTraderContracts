@@ -31,7 +31,7 @@ AITradingSystem/
 - Node.js (v14+)
 - npm or yarn
 - An Ethereum wallet with some ETH for gas
-- Infura API key (for deployment to public networks)
+
 
 ## Installation
 
