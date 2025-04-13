@@ -2,6 +2,8 @@
 
 A smart contract system that enables AI agents to execute trades on Uniswap V3 based on price thresholds and market conditions. Implements integration with the Reactive Network for event-driven trading.
 
+Contract Deployment Address on Base Mainnet = 0x864344E403c58C7331D2397C80Ca6c58817D4467
+
 ## Features
 
 - Multi-user support with balance tracking
