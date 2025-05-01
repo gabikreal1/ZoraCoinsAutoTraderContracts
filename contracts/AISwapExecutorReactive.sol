@@ -41,7 +41,7 @@ contract AISwapExecutorReactive is IReactive, Ownable {
         uint24 fee;
         uint256 amountIn;
         uint256 amountOutMinimum;
-        uint256 deadline;
+        uint160 sqrtPriceLimitX96;
     }
     
     // Price threshold for reactive trading
@@ -220,7 +220,6 @@ contract AISwapExecutorReactive is IReactive, Ownable {
         TradeParams calldata params
     ) external onlyAIAgent returns (uint256 amountOut) {
         require(userData[user].isRegistered, "User not registered");
-        require(block.timestamp <= params.deadline, "Transaction expired");
         
         // Check user's balance
         uint256 userBalance = userData[user].tokenBalances[params.tokenIn];
@@ -229,9 +228,7 @@ contract AISwapExecutorReactive is IReactive, Ownable {
         // Decrease user's balance of input token
         userData[user].tokenBalances[params.tokenIn] -= params.amountIn;
         
-        // Before approving, reset the approval to 0 first
-        TransferHelper.safeApprove(params.tokenIn, swapRouter, 0);
-        // Then approve with the needed amount
+        // Approve the router to spend the input token
         TransferHelper.safeApprove(params.tokenIn, swapRouter, params.amountIn);
         
         // Set up swap parameters
@@ -241,10 +238,9 @@ contract AISwapExecutorReactive is IReactive, Ownable {
                 tokenOut: params.tokenOut,
                 fee: params.fee,
                 recipient: address(this),
-                deadline: params.deadline,
                 amountIn: params.amountIn,
                 amountOutMinimum: params.amountOutMinimum,
-                sqrtPriceLimitX96: 0
+                sqrtPriceLimitX96: params.sqrtPriceLimitX96
             });
         
         // Execute the swap
